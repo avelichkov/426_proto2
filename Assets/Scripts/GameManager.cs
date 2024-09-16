@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
         {
             QuitGame();
         }
+
+        
     }
 
     public void RestartGame()
