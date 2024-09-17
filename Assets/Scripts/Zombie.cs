@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.EventSystems;
 
 public class Zombie : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class Zombie : MonoBehaviour
 
     private float timer = MOVE_TIME;
 
+    private AudioManager _audioManager;
+
     void Awake()
     {
         GetComponent<Renderer>().enabled = false;
@@ -32,9 +35,15 @@ public class Zombie : MonoBehaviour
         GoToRandomPos();
     }
 
+    void Start()
+    {
+        _audioManager = GameObject.FindGameObjectWithTag("audioManager").GetComponent<AudioManager>();
+    }
+
     // Doing this in update so physics update has a change to run
     void Update()
     {
+        //needsToMove = false;
         if (needsToMove)
         {
             if (!IsColliding())
@@ -69,12 +78,20 @@ public class Zombie : MonoBehaviour
 
     private void OnMouseDown() {
 
-        Debug.Log("Clicked");
-        Destroy(gameObject);
+        // Debug.Log("Clicked");
+        // _audioManager.Play("punch");
+        // Destroy(gameObject);
         // Debug.Log("BRAINZ!");
         // Collider2D colA = GetComponent<Collider2D>();
         // Collider2D colB = GameObject.Find("Zone1").GetComponent<Collider2D>();
         // Debug.Log(IsColliding());
+    }
+
+    public void OnClicked()
+    {
+        Debug.Log("Clicked");
+        _audioManager.Play("punch");
+        Destroy(gameObject);
     }
 
     private void GoToRandomPos()
@@ -129,7 +146,7 @@ public class Zombie : MonoBehaviour
         float newZ = (int)stage * 10;
         newZ += order;
         Vector3 newPos = transform.position;
-        newPos.z = 100 - newZ;
+        newPos.z = -100 - newZ;
         transform.position = newPos;
         order += 0.01f;
     }
