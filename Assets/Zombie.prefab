@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 5
   feetCol: {fileID: 0}
-  zone1: {fileID: 8146844493206668847}
+  zone1: {fileID: 6132158330292260623}
   stage: 1
 --- !u!61 &1827520136203268326
 BoxCollider2D:
