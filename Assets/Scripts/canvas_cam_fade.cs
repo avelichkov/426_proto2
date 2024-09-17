@@ -37,7 +37,8 @@ public class canvas_cam_fade : MonoBehaviour
         if (timer <= 0){
             jumpscare.SetActive(true);
             audioManager.Play("jumpscare");
+            timer = 10000;
         }
-        Debug.Log(timer);
+        //Debug.Log(timer);
     }
 }
