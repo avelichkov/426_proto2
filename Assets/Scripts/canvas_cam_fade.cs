@@ -18,7 +18,7 @@ public class canvas_cam_fade : MonoBehaviour
     void Awake()
     {
         jumpscare.SetActive(false);
-        transform.Find("win screen").gameObject.SetActive(false);
+        // transform.Find("win screen").gameObject.SetActive(false);
         timer = waitTime;
     }
 

@@ -20,10 +20,6 @@ public class screenDamage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // GameObject canvasObject = GameObject.FindGameObjectWithTag("fadeGroup");
-        // if (canvasObject != null) {
-        //     Debug.Log("found canvas object");
-        // }
         camFade = canvasObject.GetComponent<canvas_cam_fade>();
         if (camFade != null) {
             Debug.Log("found cam fade object");
