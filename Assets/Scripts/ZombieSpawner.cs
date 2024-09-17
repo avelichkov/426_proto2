@@ -11,7 +11,7 @@ public class ZombieSpawner : MonoBehaviour
     void Start()
     {
         Zombie.order = 0;
-        Zombie.LeftToSpawn = 10;
+        Zombie.LeftToSpawn = 60;
         Zombie.LeftToKill = Zombie.LeftToSpawn;
     }
     // Update is called once per frame
@@ -20,8 +20,20 @@ public class ZombieSpawner : MonoBehaviour
         timer -= Time.deltaTime;
         if (timer < 0.0f && Zombie.LeftToSpawn > 0)
         {
-            timer = 0.25f;
+            timer = 0.8f;
+            if (Zombie.LeftToSpawn < 20)
+            {
+                timer = 0.4f;
+            }
             SpawnZombie();
+        }
+    }
+
+    public void ClearAllZombies()
+    {
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            DestroyImmediate(transform.GetChild(i).gameObject);
         }
     }
 
@@ -30,4 +42,6 @@ public class ZombieSpawner : MonoBehaviour
         Zombie.LeftToSpawn--;
         Instantiate(zombie, transform);
     }
+
+    
 }

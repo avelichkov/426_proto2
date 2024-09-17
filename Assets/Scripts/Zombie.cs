@@ -14,7 +14,7 @@ public class Zombie : MonoBehaviour
 
     [HideInInspector]
     
-    public static float order;
+    public static int order;
 
     public static int LeftToSpawn;
     public static int LeftToKill; 
@@ -33,6 +33,8 @@ public class Zombie : MonoBehaviour
     private AudioManager _audioManager;
 
     private bool stunned = false;
+
+    private bool _shakeStarted = false;
 
     void Awake()
     {
@@ -70,16 +72,32 @@ public class Zombie : MonoBehaviour
                 needsToMove = false;
             }
         }
+        if (timer < 0f && stage == Stage.CLOSE && !_shakeStarted)
+        {
+            _shakeStarted = true;
+            StartCoroutine(Shake());
+            //make sure zombie is at top of layer
+            order++;
+            GetComponent<SpriteRenderer>().sortingOrder = order;
+        }
         timer -= Time.deltaTime;
         if (timer < 0 && !stunned)
         {
             if (stage != Stage.CLOSE)
             {
                 NextStage();
+                GetComponent<Renderer>().enabled = false;
+                timer = MOVE_TIME;
+                needsToMove = true;
             }
-            GetComponent<Renderer>().enabled = false;
-            timer = MOVE_TIME;
-            needsToMove = true;
+            else
+            {
+                if (timer < -2f)
+                {
+                    _audioManager.Stop("loonboon");
+                    GameObject.Find("Canvas").GetComponent<canvas_cam_fade>().Lose();
+                }
+            }
         }
     }
 
@@ -160,7 +178,6 @@ public class Zombie : MonoBehaviour
         }
         else if (stage == Stage.CLOSE)
         {
-            GameObject.Find("Canvas").GetComponent<canvas_cam_fade>().Lose();
             return;
         }
     }
@@ -168,14 +185,12 @@ public class Zombie : MonoBehaviour
     private void UpdateZ()
     {
         float newZ = (int)stage * 10;
-        newZ += order;
         Vector3 newPos = transform.position;
         newPos.z = -100 - newZ;
         transform.position = newPos;
-        order += 0.01f;
     }
 
-    IEnumerator HitEffect()
+    private IEnumerator HitEffect()
     {
         GetComponent<SpriteRenderer>().color = new Color(1f,0.25f,0.25f);
         stunned = true;
@@ -183,5 +198,30 @@ public class Zombie : MonoBehaviour
         GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f);
         yield return new WaitForSeconds(0.3f);
         stunned = false;
+    }
+
+    private IEnumerator Shake()
+    {
+        float elapsed = 0f;
+        float shakeMagnitude = 0.5f;
+        Vector2 originalPosition = transform.position;
+        while (elapsed < 2f)
+        {
+            // Generate a random offset
+            Vector2 randomOffset = new Vector3(
+                Random.Range(-shakeMagnitude, shakeMagnitude),
+                Random.Range(-shakeMagnitude, shakeMagnitude)
+            );
+
+            // Apply the offset to the object's position
+            transform.position = originalPosition + randomOffset;
+
+            elapsed += Time.deltaTime;
+
+            yield return null; // Wait until the next frame
+        }
+
+        // Reset position
+        transform.position = originalPosition;
     }
 }

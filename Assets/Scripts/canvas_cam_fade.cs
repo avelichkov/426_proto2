@@ -57,6 +57,7 @@ public class canvas_cam_fade : MonoBehaviour
 
     public void Lose()
     {
+        GameObject.Find("ZombieSpawner").GetComponent<ZombieSpawner>().ClearAllZombies();
         Debug.Log("You Lose");
     }
 }
