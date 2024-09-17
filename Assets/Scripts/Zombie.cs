@@ -1,61 +1,72 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Zombie : MonoBehaviour
 {
     public int Health = 5;
 
-    public GameObject feet;
+    [HideInInspector]
+    public Collider2D feetCol;
 
     [HideInInspector]
-    public BoxCollider2D feetCol;
-
-    [HideInInspector]
-    public GameObject zone1;
+    
+    public Collider2D zone1;
 
     public Stage stage = Stage.NEW;
 
     public enum Stage { NEW = 1,MID = 2, CLOSE = 3,}
 
-    // Start is called before the first frame update
+    private bool created = false;
+
+
     void Awake()
     {
-        transform.localScale = new Vector3(0.06f, 0.06f);
-        GameObject zone1 = GameObject.Find("Zone1");
-        feetCol = GetComponent<BoxCollider2D>();
+        GetComponent<Renderer>().enabled = false;
+        transform.localScale = new Vector2(0.06f,0.06f);
         GoToRandomPos();
-        for (int i = 0; i < 10000; i++)
+    }
+
+    // Doing this in update so physics update has a change to run
+    void Update()
+    {
+        if (!created)
         {
-            PolygonCollider2D zone1col = zone1.GetComponent<PolygonCollider2D>();
-            if (!zone1.GetComponent<PolygonCollider2D>().IsTouching(feetCol))
+            if (!IsColliding())
             {
+                print("not in good spot");
                 GoToRandomPos();
             }
             else
             {
-                break;
+                print("in good spot");
+                GetComponent<SpriteRenderer>().color = new Color(0,255,255,255);
+                GetComponent<Renderer>().enabled = true;
+                created = true;
             }
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnMouseDown() {
         Debug.Log("BRAINZ!");
+        Collider2D colA = GetComponent<Collider2D>();
+        Collider2D colB = GameObject.Find("Zone1").GetComponent<Collider2D>();
+        Debug.Log(IsColliding());
     }
 
     private void GoToRandomPos()
     {
-        float randx = Random.Range(-10.0f,10.0f);
-        float randy = Random.Range(-5.0f,5.0f);
-        randx = 0;
-        randy = 0.6f;
+        float randx = Random.Range(-5.0f,5.0f);
+        float randy = Random.Range(-3.0f,3.0f);
         transform.position = new Vector2(randx,randy);
-        Debug.Log("Going to pos: " + randx + " " + randy);
+        //Debug.Log("Going to pos: " + randx + " " + randy);
+    }
+
+    private bool IsColliding()
+    {
+        Collider2D colA = transform.GetChild(0).GetComponent<Collider2D>();
+        Collider2D colB = GameObject.Find("Zone1").GetComponent<Collider2D>();
+        return colA.IsTouching(colB);
     }
 }
