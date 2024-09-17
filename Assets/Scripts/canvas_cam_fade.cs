@@ -7,18 +7,18 @@ public class canvas_cam_fade : MonoBehaviour
 {
     [SerializeField] private CanvasGroup cg;
     public float fadeSpeed;
-    public bool fadeIn;
+    public bool isDead;
     public float waitTime;
     public GameObject jumpscare;
+
     private float timer;
     private AudioManager audioManager;
-
+    private bool fadeDone = false;
 
     void Awake()
     {
         jumpscare.SetActive(false);
-        transform.Find("win screen").gameObject.SetActive(false);
-        transform.Find("FadeGroup").gameObject.SetActive(false);
+        // transform.Find("win screen").gameObject.SetActive(false);
         timer = waitTime;
     }
 
@@ -30,21 +30,24 @@ public class canvas_cam_fade : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         if (fadeIn)
-        {
+        Debug.Log($"Update check - isDead: {isDead}, Instance ID: {GetInstanceID()}");
+         if (isDead){ 
             if (cg.alpha < 1) {
                 cg.alpha += Time.deltaTime*fadeSpeed;
                 if (cg.alpha >= 1 ){
-                    fadeIn = false;
+                    isDead = false;
+                    fadeDone = true;
                 }
             }
         }
-        timer -= Time.deltaTime;
-        // if (timer <= 0){
-        //     jumpscare.SetActive(true);
-        //     audioManager.Play("jumpscare");
-        //     timer = 10000;
-        // }
+        if (fadeDone) {
+            timer -= Time.deltaTime;
+            if (timer <= 0){
+                jumpscare.SetActive(true);  
+                audioManager.Play("jumpscare");
+                timer = 10000;
+            }
+        }
         //Debug.Log(timer);
     }
     public void Win()
