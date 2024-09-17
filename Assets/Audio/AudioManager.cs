@@ -49,6 +49,7 @@ public class AudioManager : MonoBehaviour
                 s.source.pitch = pitch;
             }
             s.source.Play();
+            Debug.Log("play");
         } 
         else
         {
