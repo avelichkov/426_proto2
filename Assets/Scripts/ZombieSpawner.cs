@@ -6,19 +6,19 @@ public class ZombieSpawner : MonoBehaviour
 {
     private float timer = 0.0f;
 
-    private float count = 50;
-
     public GameObject zombie;
     // Start is called before the first frame update
     void Start()
     {
         Zombie.order = 0;
+        Zombie.LeftToSpawn = 10;
+        Zombie.LeftToKill = Zombie.LeftToSpawn;
     }
     // Update is called once per frame
     void Update()
     {
         timer -= Time.deltaTime;
-        if (timer < 0.0f && count > 0)
+        if (timer < 0.0f && Zombie.LeftToSpawn > 0)
         {
             timer = 0.25f;
             SpawnZombie();
@@ -27,7 +27,7 @@ public class ZombieSpawner : MonoBehaviour
 
     private void SpawnZombie()
     {
+        Zombie.LeftToSpawn--;
         Instantiate(zombie, transform);
-        count--; 
     }
 }

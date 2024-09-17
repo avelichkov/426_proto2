@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3077323649588812516}
+  - component: {fileID: 2079275077278956329}
+  - component: {fileID: 6177027586522401868}
   - component: {fileID: 5687866978618062408}
   - component: {fileID: 3569096996797527049}
   - component: {fileID: 1827520136203268326}
@@ -37,6 +39,51 @@ Transform:
   - {fileID: 5523327370108429544}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2079275077278956329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183384807893786804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library:
+  - m_Name: Zombie
+    m_Hash: 0
+    m_CategoryList:
+    - m_Name: New
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: a4d4f67644b310a419c763aa970c333e, type: 3}
+    - m_Name: AlmostNew
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: d09a12c8d8a4d414fb8c79577a839e51, type: 3}
+    - m_Name: AlmostDead
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: c8a329c18ec5d0c4d83dbe01cc9cf060, type: 3}
+    - m_Name: Dead
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: f5f485398e9620847877497c701492aa, type: 3}
+  m_SpriteLibraryAsset: {fileID: 0}
+--- !u!114 &6177027586522401868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183384807893786804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 0
+  m_labelHash: 0
+  m_SpriteKey: 0
+  m_SpriteHash: 403290824
 --- !u!212 &5687866978618062408
 SpriteRenderer:
   m_ObjectHideFlags: 0

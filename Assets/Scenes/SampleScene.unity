@@ -1294,12 +1294,18 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: loonboon
     clip: {fileID: 8300000, guid: 41b8af7ad0b6c9046a5509112aaf7645, type: 3}
-    volume: 0
+    volume: 1
     pitch: 1
     loop: 1
     source: {fileID: 0}
   - name: punch
     clip: {fileID: 8300000, guid: 1c36cee8901e70c49bb65d67f7657914, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: victory jingle
+    clip: {fileID: 8300000, guid: e88e9cde8e09b544a8dbf8c62190cff9, type: 3}
     volume: 1
     pitch: 1
     loop: 0

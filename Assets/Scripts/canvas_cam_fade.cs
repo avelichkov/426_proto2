@@ -47,4 +47,13 @@ public class canvas_cam_fade : MonoBehaviour
         // }
         //Debug.Log(timer);
     }
+    public void Win()
+    {
+        Debug.Log("You Win");
+    }
+
+    public void Lose()
+    {
+        Debug.Log("You Lose");
+    }
 }

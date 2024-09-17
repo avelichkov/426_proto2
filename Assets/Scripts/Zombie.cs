@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.EventSystems;
+using UnityEngine.U2D.Animation;
 
 public class Zombie : MonoBehaviour
 {
-    public int Health = 9;
+    public int Health;
 
     [HideInInspector]
     public Collider2D feetCol;
@@ -14,6 +15,9 @@ public class Zombie : MonoBehaviour
     [HideInInspector]
     
     public static float order;
+
+    public static int LeftToSpawn;
+    public static int LeftToKill; 
     public Collider2D zone1;
 
     public Stage stage = Stage.NEW;
@@ -28,8 +32,11 @@ public class Zombie : MonoBehaviour
 
     private AudioManager _audioManager;
 
+    private bool stunned = false;
+
     void Awake()
     {
+        Health = 3;
         GetComponent<Renderer>().enabled = false;
         transform.localScale = new Vector2(0.06f,0.06f);
         GoToRandomPos();
@@ -64,7 +71,7 @@ public class Zombie : MonoBehaviour
             }
         }
         timer -= Time.deltaTime;
-        if (timer < 0)
+        if (timer < 0 && !stunned)
         {
             if (stage != Stage.CLOSE)
             {
@@ -76,22 +83,39 @@ public class Zombie : MonoBehaviour
         }
     }
 
-    private void OnMouseDown() {
-
-        // Debug.Log("Clicked");
-        // _audioManager.Play("punch");
-        // Destroy(gameObject);
-        // Debug.Log("BRAINZ!");
-        // Collider2D colA = GetComponent<Collider2D>();
-        // Collider2D colB = GameObject.Find("Zone1").GetComponent<Collider2D>();
-        // Debug.Log(IsColliding());
-    }
-
     public void OnClicked()
     {
         Debug.Log("Clicked");
         _audioManager.Play("punch");
-        Destroy(gameObject);
+        StartCoroutine(HitEffect());
+        Health--;
+        string Sprite = "New";
+        if (Health == 2)
+        {
+            Sprite = "AlmostNew";
+        }
+        if (Health == 1)
+        {
+            Sprite = "AlmostDead";
+        }
+        if (Health == 0)
+        {
+            Sprite = "Dead";
+        }
+        GetComponent<SpriteResolver>().SetCategoryAndLabel("Zombie",Sprite);
+        if (Health <= 0)
+        {
+            Zombie.LeftToKill--;
+            if (Zombie.LeftToKill == 0 && Zombie.LeftToSpawn == 0)
+            {
+                Debug.Log("You win");
+                _audioManager.Stop("loonboon");
+                _audioManager.Play("victory jingle");
+                GameObject.Find("Canvas").GetComponent<canvas_cam_fade>().Win();
+
+            }
+            Destroy(gameObject);
+        }
     }
 
     private void GoToRandomPos()
@@ -136,7 +160,7 @@ public class Zombie : MonoBehaviour
         }
         else if (stage == Stage.CLOSE)
         {
-            Debug.Log("no more stages");
+            GameObject.Find("Canvas").GetComponent<canvas_cam_fade>().Lose();
             return;
         }
     }
@@ -149,5 +173,15 @@ public class Zombie : MonoBehaviour
         newPos.z = -100 - newZ;
         transform.position = newPos;
         order += 0.01f;
+    }
+
+    IEnumerator HitEffect()
+    {
+        GetComponent<SpriteRenderer>().color = new Color(1f,0.25f,0.25f);
+        stunned = true;
+        yield return new WaitForSeconds(0.1f);
+        GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f);
+        yield return new WaitForSeconds(0.3f);
+        stunned = false;
     }
 }
