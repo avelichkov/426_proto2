@@ -11,14 +11,20 @@ public class canvas_cam_fade : MonoBehaviour
     public float waitTime;
     public GameObject jumpscare;
     private float timer;
-    public AudioManager audioManager;
+    private AudioManager audioManager;
 
-    // Start is called before the first frame update
+
+    void Awake()
+    {
+        jumpscare.SetActive(false);
+        transform.Find("win screen").gameObject.SetActive(false);
+        transform.Find("FadeGroup").gameObject.SetActive(false);
+        timer = waitTime;
+    }
+
     void Start()
     {
         audioManager = GameObject.FindGameObjectWithTag("audioManager").GetComponent<AudioManager>(); 
-        jumpscare.SetActive(false);
-        timer = waitTime;
     }
 
     // Update is called once per frame
@@ -34,11 +40,11 @@ public class canvas_cam_fade : MonoBehaviour
             }
         }
         timer -= Time.deltaTime;
-        if (timer <= 0){
-            jumpscare.SetActive(true);
-            audioManager.Play("jumpscare");
-            timer = 10000;
-        }
+        // if (timer <= 0){
+        //     jumpscare.SetActive(true);
+        //     audioManager.Play("jumpscare");
+        //     timer = 10000;
+        // }
         //Debug.Log(timer);
     }
 }

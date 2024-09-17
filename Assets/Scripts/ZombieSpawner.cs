@@ -27,7 +27,7 @@ public class ZombieSpawner : MonoBehaviour
 
     private void SpawnZombie()
     {
-        Instantiate(zombie);
-        count--;
+        Instantiate(zombie, transform);
+        count--; 
     }
 }
