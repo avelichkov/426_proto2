@@ -24,13 +24,17 @@ public class screenDamage : MonoBehaviour
         if (camFade != null) {
             Debug.Log("found cam fade object");
         }
-        zombieClose = true;
+        zombieClose = false;
         currentHealth = maxHealth;
+        Color imageColor = blood.color;  // Get current color of the UI image
+        imageColor.a = 0;  // Modify the alpha channel
+        blood.color = imageColor;  // Set the updated color back to the UI image
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("zombie close "+zombieClose);
         if (zombieClose) {
            // Increase the timer when the player is in the enemy's presence
             timeInPresence += Time.deltaTime;

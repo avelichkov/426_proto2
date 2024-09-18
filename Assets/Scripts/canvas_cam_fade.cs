@@ -10,6 +10,7 @@ public class canvas_cam_fade : MonoBehaviour
     public bool isDead;
     public float waitTime;
     public GameObject jumpscare;
+    public GameObject winscreen;
 
     private float timer;
     private AudioManager audioManager;
@@ -18,6 +19,7 @@ public class canvas_cam_fade : MonoBehaviour
     void Awake()
     {
         jumpscare.SetActive(false);
+        winscreen.SetActive(false);
         // transform.Find("win screen").gameObject.SetActive(false);
         timer = waitTime;
     }
@@ -52,6 +54,7 @@ public class canvas_cam_fade : MonoBehaviour
     }
     public void Win()
     {
+        winscreen.SetActive(true);
         Debug.Log("You Win");
     }
 

@@ -36,6 +36,9 @@ public class Zombie : MonoBehaviour
 
     private bool _shakeStarted = false;
 
+    public GameObject blood;
+    private screenDamage sd;
+
     void Awake()
     {
         Health = 3;
@@ -47,6 +50,7 @@ public class Zombie : MonoBehaviour
     void Start()
     {
         _audioManager = GameObject.FindGameObjectWithTag("audioManager").GetComponent<AudioManager>();
+        sd = blood.GetComponent<screenDamage>();
     }
 
     // Doing this in update so physics update has a change to run
@@ -75,6 +79,7 @@ public class Zombie : MonoBehaviour
         if (timer < 0f && stage == Stage.CLOSE && !_shakeStarted)
         {
             _shakeStarted = true;
+            sd.zombieClose = true;
             StartCoroutine(Shake());
             //make sure zombie is at top of layer
             order++;
@@ -101,7 +106,7 @@ public class Zombie : MonoBehaviour
         }
     }
 
-    public void OnClicked()
+    public void OnMouseDown()
     {
         Debug.Log("Clicked");
         _audioManager.Play("punch");

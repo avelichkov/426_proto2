@@ -22,7 +22,7 @@ public class EventClick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        GetComponent<Zombie>().OnClicked();
+        // GetComponent<Zombie>().OnClicked();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
