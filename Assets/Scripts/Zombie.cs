@@ -39,6 +39,9 @@ public class Zombie : MonoBehaviour
     public GameObject blood;
     private screenDamage sd;
 
+    public GameObject progBar;
+    private progressBar pb;
+
     void Awake()
     {
         Health = 3;
@@ -50,6 +53,9 @@ public class Zombie : MonoBehaviour
     void Start()
     {
         _audioManager = GameObject.FindGameObjectWithTag("audioManager").GetComponent<AudioManager>();
+        blood = GameObject.FindGameObjectWithTag("blood");
+        progBar = GameObject.FindGameObjectWithTag("progBar");
+        pb = progBar.GetComponent<progressBar>();
         sd = blood.GetComponent<screenDamage>();
     }
 
@@ -100,6 +106,7 @@ public class Zombie : MonoBehaviour
                 if (timer < -2f)
                 {
                     _audioManager.Stop("loonboon");
+                    pb.cleanUp();
                     GameObject.Find("Canvas").GetComponent<canvas_cam_fade>().Lose();
                 }
             }
@@ -129,11 +136,13 @@ public class Zombie : MonoBehaviour
         if (Health <= 0)
         {
             Zombie.LeftToKill--;
+            pb.killZombie();
             if (Zombie.LeftToKill == 0 && Zombie.LeftToSpawn == 0)
             {
                 Debug.Log("You win");
                 _audioManager.Stop("loonboon");
                 _audioManager.Play("victory jingle");
+                pb.cleanUp();
                 GameObject.Find("Canvas").GetComponent<canvas_cam_fade>().Win();
 
             }

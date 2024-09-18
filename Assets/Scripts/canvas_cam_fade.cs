@@ -55,6 +55,7 @@ public class canvas_cam_fade : MonoBehaviour
     public void Win()
     {
         winscreen.SetActive(true);
+        isDead = false;
         Debug.Log("You Win");
     }
 
